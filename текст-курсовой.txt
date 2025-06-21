@@ -1,0 +1,2259 @@
+Оглавление
+Введение	4
+1 ТРЕБОВАНИЯ К ПРОГРАММЕ	5
+1.1 Назначение программы	5
+1.2 Область применения	5
+1.3 Задачи, решаемые программой	6
+1.4 Функциональные требования	7
+1.5 Требования к надежности	8
+1.6 Требования к эргономике и технической эстетике	9
+1.7 Требования к программной документации	9
+1.8 Стадии и этапы разработки	9
+1.9 Диаграмма вариантов использования	10
+1.10 Детализация вариантов использования	10
+1.10.1 Регистрация пользователя	10
+1.10.2 Создание лота	11
+1.10.3 Ставка на лот	12
+1.10.4 Завершение аукциона	13
+2 АНАЛИЗ	14
+2.1 Диаграмма классов анализа	14
+3 ПРОЕКТИРОВАНИЕ	16
+3.1 Диаграмма развертывания	16
+3.2 Диаграмма последовательностей	16
+3.3 Диаграмма деятельности	18
+3.4 Модель базы данных	19
+4 РЕАЛИЗАЦИЯ	21
+4.1 Разработка приложения	21
+4.2 Создание представлений, маршрутов и шаблонов для моделей	22
+4.2.1 Модели: Аукцион, Категория, Тег, Ставка	22
+4.2.2 Модели: Пользователь	28
+4.2.3 Модели: Кошелек, Транзакция	34
+4.2.4 Создание маршрутов для моделей	37
+4.2.5 Поиск и отображение найденных данных.	37
+4.3 Авторизация	39
+4.3.1 Шаблон авторизации пользователей	39
+4.3.2 Шаблон приветствия авторизированных пользователей	39
+4.3.3 Представления, маршруты и шаблоны для авторизации пользователей	40
+4.4 Участие в аукционе	45
+4.4.1 Управление ставками	45
+4.4.2 Статистика ставок по аукционам	49
+4.4.3 Добавление ссылки на страницу статистики	50
+4.5 Кошелек и завершение аукциона	52
+4.5.1 Завершение аукциона	52
+4.5.2 Кошелек	55
+4.5.3 Представления, маршруты и шаблоны для процесса ставок и кошелька	57
+4.6 Чат аукциона	61
+4.6.1 Установка WebSocket сервера	61
+4.6.2 Отправка и получение сообщений	63
+4.6.3 Шаблон чата	65
+4.7 Демонстрация пользовательского интерфейса	68
+5 ЗАКЛЮЧЕНИЕ	72
+
+
+
+
+ 
+Введение
+Современный мир стремительно переходит в онлайн, и сфера аукционов не является исключением. Традиционные аукционы, требующие физического присутствия, все чаще уступают место онлайн-платформам, предлагающим удобство, доступность и широкий охват аудитории. Онлайн-аукционы предоставляют уникальную возможность для продавцов максимизировать прибыль за счет конкуренции между покупателями, а для покупателей - приобрести ценные товары по выгодной цене, не выходя из дома.
+В связи с этим, разработка веб-приложения для проведения онлайн-аукционов является актуальной и перспективной задачей. Такое приложение позволит автоматизировать процессы проведения аукционов, расширить аудиторию потенциальных участников, снизить затраты на организацию и управление, а также обеспечить прозрачность и безопасность сделок.
+Данный курсовой проект посвящен разработке веб-приложения для проведения онлайн-аукционов, которое будет обладать следующими ключевыми функциональными возможностями: регистрация и авторизация пользователей, создание и управление лотами, участие в торгах, отслеживание статуса аукционов, а также система уведомлений и отчетности. Целью проекта является создание надежного, удобного и функционального инструмента для проведения аукционов в онлайн-режиме, отвечающего современным требованиям и предоставляющего пользователям комфортный и безопасный опыт.
+В дальнейшем, в рамках данного курсового проекта, будут рассмотрены теоретические основы построения веб-приложений, проведен анализ существующих решений в области онлайн-аукционов, разработана архитектура проектируемого приложения, реализованы основные функциональные модули и проведено тестирование разработанного продукта. Ожидается, что результаты проекта позволят получить ценные навыки и опыт в области веб-разработки и создания сложных интерактивных веб-приложений.
+1 ТРЕБОВАНИЯ К ПРОГРАММЕ
+1.1 Назначение программы  
+Основным назначением веб-приложения для онлайн-аукционов является создание удобной и эффективной платформы для проведения аукционов в режиме реального времени. Программа предназначена для обеспечения взаимодействия между продавцами и покупателями, позволяя им проводить торги, заключать сделки и управлять всем процессом аукциона онлайн. Более конкретно, приложение предназначено для:
+•  Организации аукционов: Предоставление инструментов для создания, настройки и управления аукционами.
+•  Участия в торгах: Обеспечение возможности для зарегистрированных пользователей делать ставки, отслеживать ход торгов и конкурировать за интересующие их лоты.
+•  Автоматизации процесса: Автоматизация рутинных задач, таких как уведомление участников о новых ставках, завершение аукциона и перевод денег от покупателя продавцу.
+•  Обеспечения безопасности: Гарантирование безопасности транзакций и конфиденциальности данных пользователей.
+
+1.2 Область применения  
+Система предназначена для частных лиц и организаций, желающих реализовать собственные товары или приобрести лоты на открытых торгах.
+Веб-приложение для онлайн-аукционов может быть использовано в широком спектре областей, включая:
+• Продажу товаров: Реализация товаров различных категорий, от предметов искусства и антиквариата до электроники и бытовой техники.
+• Продажу услуг: Предложение услуг в различных областях, таких как фриланс, консультации, обучение и т.д.
+• Благотворительные аукционы: Сбор средств для благотворительных организаций.
+• Специализированные аукционы: Проведение аукционов, ориентированных на определенную нишу или аудиторию (например, аукционы недвижимости, аукционы автомобилей).
+• Аукционы по банкротству и конфискации: Продажа имущества, полученного в результате банкротства или конфискации.
+
+1.3 Задачи, решаемые программой  
+•	Обеспечение доступности: Предоставление доступа к аукционам для пользователей из любой точки мира, имеющих доступ к интернету.
+•	Повышение эффективности: Автоматизация процессов, сокращение времени и затрат на проведение аукционов.
+•	Расширение аудитории: Привлечение большего числа участников к торгам.
+•	Повышение прозрачности: Обеспечение прозрачности процесса торгов и исключение возможности манипуляций.
+•	Улучшение пользовательского опыта: Предоставление удобного и интуитивно понятного интерфейса для всех участников аукциона.
+•	Управление данными: Обеспечение надежного хранения и обработки данных о пользователях, лотах и транзакциях.
+•	Разрешение споров: Предоставление механизмов для разрешения споров между участниками аукциона (опционально, в зависимости от сложности приложения).
+
+
+ 
+1.4 Функциональные требования  
+Функциональные требования системы разбиты по 4 акторам системы:
+•	Гость: Неавторизованный пользователь, может просматривать список аукционов и информацию о лотах, а также регистрироваться и входить в систему.
+•	Пользователь: Зарегистрированный участник аукциона, может делать ставки, просматривать свои ставки, управлять балансом, просматривать статистику участия и редактировать свой профиль (личные данные, пароль, аватар). 
+•	Продавец: Пользователь, который может выставлять свои товары на аукцион, редактировать и удалять свои лоты, просматривать ставки на свои лоты и вести чат по своим лотам. 
+•	Администратор: Пользователь с расширенными правами, управляющий пользователями, системными категориями и тегами, модерацией аукционов.
+
+Основные функции:
+Для гостя:
+•	Регистрация аккаунта 
+•	Вход в систему (аутентификация)
+•	Просмотр списка всех аукционов и информации о лотах
+
+Для пользователя:
+•	Ставка на выбранный лот (в пределах допустимого баланса)
+•	Просмотр истории своих ставок
+•	Просмотр и управление балансом кошелька
+•	Просмотр статистики участия в аукционах (выигранные/проигранные лоты, сумма ставок и т.д.)
+•	Редактирование профиля: изменение личных данных, пароля, аватара
+•	Общение через чат аукциона
+
+Для продавца:
+•	Создание нового лота/аукциона (с указанием описания, фото, стартовой цены, даты и времени окончания и прочих параметров)
+•	Просмотр ставок, сделанных на свой лот 
+•	Ответы в чате своего аукциона (общение с потенциальными покупателями)
+
+Для администратора:
+•	Вход в админ-панель
+•	Управление пользователями (просмотр, изменение ролей, блокировка/разблокировка)
+•	Модерация аукционов (удаление лотов)
+•	Управление системными категориями и тегами товаров
+
+Дополнительно:
+•	Автоматическое завершение аукциона и определение победителя
+•	Защита от несанкционированных действий (валидация, права доступа)
+•	Логирование всех транзакций пользователя в системе (заморозка, пополнение, вывод средств)
+
+1.5 Требования к надежности  
+•	Корректная обработка ошибок при вводе данных  
+•	Проверка уникальности регистрации по email  
+•	Защита от несанкционированных ставок и действий  
+•	Сохранение истории торгов и ставок  
+•	Защита от XSS и CSRF-атак  
+
+1.6 Требования к эргономике и технической эстетике  
+•	Интуитивно понятный интерфейс  
+•	Удобная навигация по разделам сайта  
+•	Информативные сообщения об ошибках и успешных операциях  
+•	Соблюдение стандарта REST API 
+
+1.7 Требования к программной документации  
+Документация представлена в виде отчета по курсовой работе, который состоит из следующих частей:
+1.	Титульный лист, номинальный объем – 1страница;
+2.	Содержание, номинальный объем – 1 страница;
+3.	Введение, номинальный объем – 1 страница;
+4.	Требования к программе, номинальный объем – 8 страниц;
+5.	Анализ, номинальный объем – 8 страниц;
+6.	Проектирование, номинальный объем – 8 страниц;
+7.	Реализация, номинальный объем – 8 страниц;
+8.	Документация, номинальный объем – 8страниц;
+9.	Заключение, номинальный объем – 1 страница;
+10.	Список использованных источников, номинальный объем – 1
+1.8 Стадии и этапы разработки  
+Этапы:  
+1.	Формирование требований 
+2.	Проектирование архитектуры (модели, маршруты, шаблоны)  
+3.	Реализация основных функций  
+4.	Разработка пользовательского интерфейса  
+5.	Интеграция и деплой на сервер  
+6.	Подготовка документации  
+
+1.9 Диаграмма вариантов использования  
+Диаграммой вариантов использования называется диаграмма, на которой показана совокупность вариантов использования (по-другому, прецедентов) и актеров, а также отношения между ними.
+ 
+Рис. 1.1 Диаграмма вариантов использования программной системы
+
+1.10 Детализация вариантов использования  
+Ниже представлены спецификации некоторых вариантов использования, изображенных на рис. 1.1
+1.10.1 Регистрация пользователя
+Вариант использования: Регистрация аккаунта
+Краткое описание: 
+Регистрация аккаунта гостем
+Главные актеры: 
+Гость
+
+Предусловие: пользователь не авторизован в системе
+Основное поток:
+1.	Пользователь выбирает "Регистрация"  
+2.	Вводит email, пароль  
+3.	Система проверяет уникальность email  
+4.	Система создает аккаунт и перенаправляет на страницу входа
+Постусловие: 
+Создан аккаунт пользователя. Пользователя переводит на страницу входа
+Альтернативные потоки:
+ нет
+1.10.2 Создание лота  
+Вариант использования: Создание лота
+Краткое описание: 
+Продавец выставляет лот путем создания нового аукциона
+Главные актеры: 
+Продавец
+
+Предусловие: Пользователь авторизован в системе. Роль пользователя – «Продавец»
+Постусловие: 
+Создан новый аукцион
+Основное поток:
+1.	Продавец выбирает "Создать аукцион"  
+2.	Продавец заполняет форму: 
+2.1	 Название
+2.2	 Описание
+2.3	 Изображение
+2.4	 Стартовая цена 
+2.5	 Шаг ставки
+2.6	 Дата окончания
+3.	Система валидирует данные и создает новый аукцион с заданными параметрами
+Альтернативные потоки:
+ нет
+
+1.10.3 Ставка на лот  
+Вариант использования: Ставка на лот
+Краткое описание: 
+Покупатель делает ставку на лот
+Главные актеры: 
+Покупатель
+
+Предусловие: 
+•	Пользователь авторизован в системе. 
+•	Роль пользователя – «Покупатель» или «Продавец».
+•	Незамороженный баланс кошелька больше или равен сумме ставки
+Постусловие: 
+•	Динамически обновлена история ставок для аукциона. 
+•	У пользователя заморозились средства равные сумме ставки
+Основное поток:
+1.	Покупатель выбирает лот  
+2.	Вводит сумму ставки  
+3.	Система валидирует ставку:
+3.1	 Ставка больше текущей + шаг ставки
+3.2	 Валидация баланса
+3.2.1	Незамороженный баланс пользователя больше или равен сумме ставки
+3.2.2	ИЛИ: Пользователь перебил свою же ставку, тогда Незамороженный баланс пользователя + предыдущая ставка больше или равна сумме новой ставки
+4	Система проверяет баланс пользователя и замораживает часть баланса, равную сумме ставки
+5	Система создает ставку в базе данных
+6	Система динамически добавляет ставку на страницу аукциона и обновляет лидера
+Альтернативные потоки:
+ нет
+
+1.10.4 Завершение аукциона  
+Вариант использования: Завершение аукциона
+Краткое описание: 
+Система автоматически завершает аукцион с истекшей датой окончания
+Главные актеры: 
+Система
+
+Предусловие: 
+Истекло время окончания аукциона
+Постусловие: 
+•	Динамически обновлена история ставок для аукциона. 
+•	У пользователя заморозились средства равные сумме ставки
+Основное поток:
+1.	Система определяет победителя  
+2.	Совершает автоматический перевод средств от победителя продавцу
+3.	Лот переводится в завершённые
+4.	История торгов сохраняется  
+Альтернативные потоки:
+ нет
+
+2 АНАЛИЗ  
+2.1 Диаграмма классов анализа  
+В ходе анализа были выделены следующие основные классы предметной области:
+•	User — представляет пользователя системы, может быть покупателем или продавцом.
+•	Auction — описывает аукцион, где выставляется лот.
+•	Category — категория, к которой относится аукцион.
+•	Tag — теги для классификации аукционов.
+•	Bet — ставка, которую делает пользователь на аукционе.
+•	Wallet — кошелек пользователя для хранения средств.
+•	Transaction — транзакции пополнения, списания или перевода средств.
+•	Message — сообщения между пользователями в рамках аукциона.
+
+Для каждого класса определены ключевые атрибуты (например, id, имя, баланс, сумма ставки, описание и т.д.) и основные методы (например, сделать ставку, пополнить кошелек, отправить сообщение). Диаграмма классов приведена на рисунке 2.1.
+
+ 
+Рисунок 2.1 – Диаграмма классов для предметной области онлайн аукционов
+
+
+
+
+ 
+3 ПРОЕКТИРОВАНИЕ
+3.1 Диаграмма развертывания  
+Целью диаграммы развертывания является наглядное отображение архитектуры исполнения и взаимодействия ключевых аппаратных и программных компонентов системы. На рисунке 3.1 приведена диаграмма развертывания для веб-приложения онлайн аукционов.
+
+
+
+
+ 
+
+Рисунок 3.1 – Диаграмма развертывания системы
+
+3.2 Диаграмма последовательностей  
+Опишем процесс создания ставки на определенный аукцион с помощью диаграммы последовательностей (рисунок 3.2). Действия описываются на уровне сети (общение между клиентом и сервером, не между классами сервера). Данная диаграмма также предоставляет альтернативный путь выполнения в случае возникновения ошибок на сервере. 
+На диаграмме взаимодействие происходит между следующими участниками: 
+•	Покупатель: Инициирует процесс создания отчета. 
+•	Страница аукциона: Пользовательский интерфейс веб-приложения. 
+•	Веб-сервер: Обрабатывает запросы от страницы сайта. 
+•	Сервер приложений: Логика приложения, обрабатывает бизнес-логику и взаимодействует с базой данных. 
+•	Сервер базы данных: Хранит и предоставляет данные приложения.
+•	WebSocket сервер: Получает события о создании новой ставки и отправляет сообщения с информацией о ней на страницу аукциона.
+
+
+ 
+Рисунок 3.2 – Диаграмма прецедента для создания ставки
+
+3.3 Диаграмма деятельности
+Еще одним важным прецедентом в системе является «Просмотр списка аукционов». Данный процесс охватывает последовательность действий от инициативы пользователя до получения и отображения аукционов на клиентской стороне. Приведем его описание с помощью диаграммы деятельности (рисунок 3.3).
+
+ 
+Рисунок 3.3 – Диаграмма деятельности для получения списка аукционов
+
+3.4 Модель базы данных
+В рамках предметной области онлайн-аукциона были выделены следующие основные сущности:
+•	Category
+•	Tag
+•	Auction 
+•	Bet 
+•	Message 
+•	User 
+•	Wallet 
+•	Transaction 
+
+Определение связей между сущностями
+•	Auction ↔ Category: каждый аукцион принадлежит одной категории, категория содержит множество аукционов (связь один-ко-многим).
+•	Auction ↔ Tag: каждый аукцион может иметь несколько тегов, каждый тег — относиться к нескольким аукционам (многие-ко-многим).
+•	Auction ↔ Bet: каждый аукцион может иметь множество ставок, ставка принадлежит одному аукциону (один-ко-многим).
+•	Auction ↔ Message: каждый аукцион может иметь множество сообщений, сообщение принадлежит одному аукциону (один-ко-многим).
+•	User ↔ Auction: пользователь может создавать аукционы (один-ко-многим).
+•	User ↔ Bet: пользователь может делать много ставок, ставка принадлежит одному пользователю (один-ко-многим).
+•	User ↔ Message: пользователь может отправлять много сообщений, сообщение принадлежит одному пользователю (один-ко-многим).
+•	User ↔ Wallet: у пользователя один кошелек (один-к-одному).
+•	Wallet ↔ Transaction: в кошельке может быть много транзакций, транзакция принадлежит одному кошельку (один-ко-многим). 
+ 
+Рисунок 3.4 – Диаграмма деятельности для получения списка аукционов
+
+4 РЕАЛИЗАЦИЯ
+4.1 Разработка приложения  
+- Backend: Python 3.11+, Django 4.x  
+- Frontend: HTML, CSS, JavaScript  
+- Хранение изображений: локально или через S3  
+- Использование Django ORM и миграций  
+- Защита аукционов от скриптовых ставок  
+
+ 
+4.2 Создание представлений, маршрутов и шаблонов для моделей
+4.2.1 Модели: Аукцион, Категория, Тег, Ставка
+Начнем с представления для моделей аукциона, категорий, тегов и ставок. Все они отображаются в контексте аукциона. В листинге 4.2.1 приведены представления списка аукционов, страницы аукциона, а также формы создания аукциона:
+
+Листинг 4.2.1 – Создание представлений для модели аукциона (Auction) и связанных моделей (Category, Tag, Bet):
+class AuctionListView(SetUserMixin, ListView):
+    model = Auction
+    template_name = 'auction_list.html'
+    context_object_name = 'auctions'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            queryset = queryset.filter(Q(title__icontains=query))
+
+        queryset = queryset.filter(end_date__gt=timezone.now())
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['URL_HOST'] = "http://" + settings.URL_HOST
+
+        for auction in context['auctions']:
+            last_bet = Bet.objects.filter(auction=auction).order_by('-timestamp').first()
+            auction.last_bet = last_bet.amount if last_bet else None
+        return context
+
+
+class AuctionPageView(SetUserMixin, TemplateView):
+    template_name = 'auction.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        auction_id = self.kwargs.get('id')
+        auction = get_object_or_404(Auction, id=auction_id)
+
+        last_bet = Bet.objects.filter(auction=auction).order_by('-timestamp').first()
+        min_bet = last_bet.amount + auction.bet_step if last_bet else auction.start_price
+
+        last_5_bets = Bet.get_last_5_bets(auction_id)
+        for bet in last_5_bets:
+            bet.timestamp = bet.timestamp.strftime('%d.%m.%Y, %H:%M')
+
+        context['auction'] = auction
+        context['tags'] = auction.tags.all()
+        context['last_5_bets'] = last_5_bets
+        context['WEBSOCKET_HOST'] = settings.URL_HOST
+        context['URL_HOST'] = "http://" + settings.URL_HOST
+        context['bet_form'] = BetForm(min_bet=min_bet)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        auction_id = self.kwargs.get('id')
+        form = BetForm(request.POST)
+
+        if form.is_valid():
+            amount = form.cleaned_data['amount']
+
+            try:
+                bet = BetManager.place_bet(request.user, auction_id, amount)
+                channel_layer = get_channel_layer()
+                async_to_sync(channel_layer.group_send)(
+                f'auction_{auction_id}',
+                    {
+                        'type': 'new_bet',
+                        'amount': bet.amount,
+                        'buyer_name': bet.buyer.name,
+                        'timestamp': bet.timestamp.isoformat(),
+                    }
+                )
+                return HttpResponseRedirect(request.path)
+            except Exception as e:
+                form.add_error('amount', e)
+
+        context = self.get_context_data(**kwargs)
+        context['bet_form'] = form
+        return self.render_to_response(context)
+
+
+class AuctionCreateView(RoleRequiredMixin, CreateView):
+    model = Auction
+    form_class = AuctionForm
+    template_name = 'user_dashboard_create_auction.html'
+    success_url = reverse_lazy('auction_list')
+
+    def get_required_role(self):
+        return 'Customer'
+
+    def form_valid(self, form):
+        form.instance.customer = self.request.user
+        return super().form_valid(form)
+
+Добавим шаблоны для представлений (листинги 4.2.2-4.2.4 для списка аукционов, страницы аукциона и формы создания аукциона соответственно):
+
+Листинг 4.2.2 – Шаблон страницы со списком аукционов
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Auctions{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/auction_list.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="header">
+        <h1>All Auctions</h1>
+        <form method="get" action="{% url 'auction_list' %}" class="form__inline search-form">
+            <input type="text" name="q" placeholder="Search by title" value="{{ request.GET.q }}">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <ul class="auction-list">
+        {% if not auctions %}
+            <li class="auction-card no-auctions-message">No auctions found matching your search criteria.</li>
+        {% endif %}
+        {% for auction in auctions %}
+            <a href="{% url 'auction' auction.id %}" class="auction-card-link">
+                <li class="auction-card">
+                    <div class="auction-info">
+                        <h2>{{ auction.title }}</h2>
+                        <p>{{ auction.description }}</p>
+                        <p>
+                            {% if auction.last_bet %}
+                                Last Bet: ${{ auction.last_bet }}
+                            {% else %}
+                                Start Price: ${{ auction.start_price }}
+                            {% endif %}
+                        </p>
+                        <p>Bet Step: ${{ auction.bet_step }}</p>
+                    </div>
+                    <div class="auction-image">
+                        <img src="{{ URL_HOST }}/{{ auction.img }}" alt="{{ auction.title }}">
+                    </div>
+                </li>
+            </a>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+Листинг 4.2.3 – Шаблон страницы аукциона
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Auction{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/auction.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="header">
+        <h1>{{ auction.title }}</h1>
+        <p>Welcome to the auction!</p>
+    </div>
+    <div class="auction-container">
+        <div class="auction-details">
+            <div>
+                <div class="auction-categories-container">
+                    <p><strong>Category:</strong> {{ auction.category.name }}</p>
+                </div>
+                <div class="auction-tags-container">
+                    <p><strong>Tags:</strong></p>
+                    <ul class="auction-tags">
+                        {% for tag in tags %}
+                            <li>
+                                {{ tag.name }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <p class="auction-description">{{ auction.description }}</p>
+            <p>Starting bid: ${{ auction.start_price }}</p>
+            <p>Bet step: ${{ auction.bet_step }}</p>
+            <p>Start date: {{ auction.start_date|date:"d.m.Y, H:i" }}</p>
+            <p>End date: {{ auction.end_date|date:"d.m.Y, H:i" }}</p>
+            <p>Customer: {{ auction.customer.name }} {{ auction.customer.surname }}</p>
+        </div>
+        <div class="auction-img-wrapper">
+            <img src="{{ URL_HOST }}/{{ auction.img }}" alt="Auction Image">
+        </div>
+    </div>
+    <div class="bet-container">
+        <div class="bet-history">
+            <h2>Last bets</h2>
+            <ul>
+                {% if last_5_bets %}
+                    {% for bet in last_5_bets %}
+                        <li>${{ bet.amount }} by {{ bet.buyer.name }} on {{ bet.timestamp }}</li>
+                    {% endfor %}
+                {% else %}
+                    <li class="bet-history__stub">No bets have been placed yet.</li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="bet-form">
+            <h2>Place your bet</h2>
+            {% if request.user != None %}
+                <form method="post">
+                    {% csrf_token %}
+                    {{ bet_form.as_p }}
+                    <button type="submit">Submit Bet</button>
+                </form>
+            {% else %}
+                <p>You must be logged in to place a bet.</p>
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        (function () {
+            const auctionId = "{{ auction.id }}";
+            const socket = new WebSocket(`ws://{{ WEBSOCKET_HOST }}/ws/auction/${auctionId}/`);
+
+            socket.onmessage = function (event) {
+                const data = JSON.parse(event.data);
+
+                const timestamp = new Date(data.timestamp);
+                const formattedTimestamp = timestamp.toLocaleString('ru-RU', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                });
+
+                const betList = document.querySelector('.bet-history ul');
+                const newBet = document.createElement('li');
+                newBet.textContent = `$${data.amount} by ${data.buyer_name} on ${formattedTimestamp}`;
+                betList.prepend(newBet);
+
+                if (betList.children.length > 5) {
+                    betList.removeChild(betList.lastChild);
+                }
+
+                const betInput = document.querySelector('input[name="amount"]');
+                const newMinBet = data.amount + {{ auction.bet_step }};
+                betInput.setAttribute('placeholder', `Minimum bet: $${newMinBet}`);
+                betInput.setAttribute('min', newMinBet);
+            };
+        })();
+    </script>
+{% endblock %}
+{% block aside %}
+    {% if request.user != None %}
+        {% include 'components/chat.html' %}
+    {% endif %}
+{% endblock %}
+
+Листинг 4.2.4 – Шаблон страницы создания аукциона
+{% extends 'user_dashboard_layout.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>Create Auction</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create</button>
+    </form>
+{% endblock %}
+
+Обратим внимание, что в шаблон создания аукциона вложен в общий шаблон страниц дашборда (листинг 4.2.5).
+
+Листинг 4.2.5 – Общий шаблон для страниц дашборда
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+{% include 'components/header.html' %}
+<main>
+    <aside class="sidebar">
+        <ul>
+            <li><a href="{% url 'user_dashboard_edit' %}">Edit Profile</a></li>
+            <li><a href="{% url 'user_dashboard_wallet' %}">Wallet</a></li>
+            <li><a href="{% url 'user_dashboard_stats' %}">Statistics</a></li>
+            {% if request.user.role == 'customer' %}
+                <li><a href="{% url 'user_dashboard_create_auction' %}">Manage Auctions</a></li>
+            {% endif %}
+        </ul>
+    </aside>
+    <div class="page-container page-container_sidebar">
+        {% block content %}{% endblock %}
+    </div>
+</main>
+</body>
+</html> 
+4.2.2 Модели: Пользователь
+На листинге 4.2.6 приведены представления для редактирования пользователя, а также представление для отображения статистики последних ставок пользователя.
+
+Листинг 4.2.6 – Представления для редактирования пользователя, а также представление для отображения статистики последних ставок пользователя
+from django.db.models import Max
+from django.shortcuts import render
+from django.utils import timezone
+from django.views import View
+
+from app.authentication import AuthRequiredMixin
+from app.forms import UserEditForm
+from app.models import Bet, Auction
+
+
+class UserEditView(AuthRequiredMixin, View):
+    def get(self, request):
+        form = UserEditForm(instance=request.user)
+        return render(request, 'user_dashboard_edit.html', {'form': form})
+
+    def post(self, request):
+        form = UserEditForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+        return render(request, 'user_dashboard_edit.html', {'form': form})
+
+
+class UserStatsView(AuthRequiredMixin, View):
+    def get(self, request):
+        auctions = Auction.objects.filter(bet__buyer_id=request.user.id, end_date__gt=timezone.now()).distinct()
+
+        serialized_auctions = [
+            {
+                'title': auction.title,
+                'user_bet': auction.get_user_max_bet(request.user.id).amount,
+                'current_price': auction.get_current_max_bet().amount,
+                'end_date': auction.end_date.strftime('%d.%m.%Y, %H:%M'),
+                'auction_url': f"/auction/{auction.id}/"
+            }
+            for auction in auctions
+        ]
+        return render(request, 'user_dashboard_stats.html', {'auctions': serialized_auctions})
+
+
+Листинг 4.2.7 – Шаблон редактирования информации пользователя
+{% extends 'user_dashboard_layout.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>Edit User</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+{% endblock %}
+
+Листинг 4.2.8 – Шаблон статистики ставок пользователя по аукционам
+{% extends 'user_dashboard_layout.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/user_dashboard_stats.css' %}">
+{% endblock %}
+{% block content %}
+<h1>Your Auction Statistics</h1>
+<div class="auction-card-container">
+    {% for auction in auctions %}
+        <a class="auction-statistic-card" href="{{ auction.auction_url }}"
+        >
+            <h2>{{ auction.title }}</h2>
+            <p>Your Bet:
+                <span>
+                        ${{ auction.user_bet }}
+                    </span>
+            </p>
+            <p>Current Price:
+                <span class="{% if auction.user_bet < auction.current_price %}highlight{% endif %}">
+                        ${{ auction.current_price }}
+                    </span>
+            </p>
+            <p>End Date: {{ auction.end_date }}</p>
+        </a>
+    {% empty %}
+        <p>No auction statistics available at the moment. Information about the auctions you participate in will be displayed here.</p>
+    {% endfor %}
+</div>
+{% endblock %}
+
+На листинге 4.2.8 приведены представления для аутентификации и авторизации пользователя:
+
+Листинг 4.2.8 – Представления для аутентификации и авторизации пользователя
+class RegisterView(generics.CreateAPIView):
+
+    queryset = User.objects.all()
+
+    serializer_class = UserSerializer
+
+
+
+    def get(self, request):
+
+        form = RegisterForm()
+
+        return render(request, 'register.html', {'form': form})
+
+
+
+    def post(self, request):
+
+        form = RegisterForm(request.POST)
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect('login')
+
+        return render(request, 'register.html', {'form': form})
+
+
+
+
+
+class LoginView(generics.GenericAPIView):
+
+    queryset = User.objects.all()
+
+    serializer_class = UserSerializer
+
+
+
+    def get(self, request):
+
+        form = LoginForm()
+
+        return render(request, 'login.html', {'form': form})
+
+
+
+    def post(self, request):
+
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+
+            email = form.cleaned_data.get('email')
+
+            password = form.cleaned_data.get('password')
+
+            backend = EmailBackend()
+
+            user = backend.authenticate(request, email=email, password=password)
+
+            if user:
+
+                refresh = RefreshToken.for_user(user)
+
+
+
+                next_url = request.GET.get('next', 'home')
+
+                response = redirect(next_url)
+
+                response.set_cookie('access', str(refresh.access_token), httponly=True)
+
+                response.set_cookie('refresh', str(refresh), httponly=True)
+
+
+
+                return response
+
+            form.add_error(None, 'Invalid email or password')
+
+        return render(request, 'login.html', {'form': form})
+
+
+
+
+
+class TokenRefreshView(APIView):
+
+    def get(self, request):
+
+        refresh_token = request.COOKIES.get('refresh')
+
+        redirect_to_login = request.GET.get('login', 'True') == 'True'
+
+
+
+        if not refresh_token:
+
+            if redirect_to_login:
+
+                return self.login(request)
+
+
+
+            response = self.redirect_to_next(request)
+
+            return self.clear_cookies(response)
+
+
+
+        try:
+
+            token = RefreshToken(refresh_token)
+
+            access_token = token.access_token
+
+
+
+            response = self.redirect_to_next(request)
+
+            response.set_cookie('access', str(access_token), httponly=True)
+
+
+
+            return response
+
+        except (InvalidToken, ExpiredTokenError):
+
+            return self.login(request)
+
+
+
+    def login(self, request):
+
+        next_url = request.GET.get('next', 'home')
+
+        response = redirect(f'{reverse("login")}?next={next_url}')
+
+        return self.clear_cookies(response)
+
+
+
+    def clear_cookies(self, response):
+
+        response.delete_cookie('access')
+
+        response.delete_cookie('refresh')
+
+        return response
+
+
+
+    def redirect_to_next(self, request):
+
+        next_url = request.GET.get('next', 'home')
+
+        return redirect(next_url)
+
+
+
+
+
+class LogoutView(APIView):
+
+    def post(self, request):
+
+        next_url = request.POST.get('next', 'home')
+
+
+
+        response = redirect(next_url)
+
+        response.delete_cookie('access')
+
+        response.delete_cookie('refresh')
+
+        return response
+
+
+В файле «auth_view.py» реализованы представления для управления аутентификацией и авторизацией пользователей: 
+«RegisterView» отвечает за регистрацию пользователей, отображая форму регистрации для GET-запросов и обрабатывая данные формы для POST-запросов. Если форма валидна, пользователь сохраняется, и происходит перенаправление на страницу входа. 
+«LoginView» обрабатывает вход пользователей, показывая форму входа для GET-запросов и проверяя учетные данные для POST-запросов. Если данные верны, создаются токены доступа и обновления, которые устанавливаются в cookies, а пользователь перенаправляется на указанную страницу. 
+«TokenRefreshView» используется для обновления токена доступа с помощью refresh-токена, хранящегося в cookies. Если refresh-токен недействителен или истек, пользователь перенаправляется на страницу входа, а cookies очищаются. 
+«LogoutView» позволяет пользователям выйти из системы, удаляя токены доступа и обновления из cookies и перенаправляя их на указанную страницу.
+
+На листингах 4.2.9-4.2.10 представлены шаблоны для страниц логина и регистрации пользователя.
+
+Листинг 4.2.9 – Шаблон страницы логина 
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+<div class="modal-container">
+    <h1>Login</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
+</div>
+</body>
+</html>
+
+Листинг 4.2.10 – Шаблон страницы регистрации
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+<div class="modal-container">
+    <h1>Register</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+</div>
+</body>
+</html>
+
+4.2.3 Модели: Кошелек, Транзакция
+В файле wallet_view.py (листинг 4.2.11) реализованы представления для управления кошельком пользователя. Представление WalletView отвечает за отображение информации о кошельке и последних транзакциях пользователя. При обработке GET-запроса отображается страница с балансом кошелька и списком последних транзакций. При обработке POST-запроса выполняются действия, связанные с кошельком, такие как пополнение или снятие средств. Если данные корректны, создается транзакция, и пользователю отображается сообщение об успешной операции. В случае ошибки выводится соответствующее сообщение, и пользователь перенаправляется обратно на страницу кошелька. Соответствующий шаблон приведен в листинге 4.2.12. 
+
+Листинг 4.2.11 – Представление страницы кошелька пользователя со списком последних транзакций
+from django.shortcuts import render, redirect
+from django.views import View
+from app.authentication import AuthRequiredMixin
+from app.models import Wallet, Transaction
+from django.contrib import messages
+
+from app.wallet import TransactionManager
+
+
+class WalletView(AuthRequiredMixin, View):
+    def get(self, request):
+        wallet = Wallet.objects.get(user=request.user)
+        transactions = Transaction.objects.filter(user=request.user).order_by('-timestamp')[:10]
+        return render(request, 'user_dashboard_wallet.html', {'wallet': wallet, 'transactions': transactions})
+
+    def post(self, request):
+        action = request.POST.get('action')
+        amount = request.POST.get('amount')
+
+        try:
+            amount = float(amount)
+            if amount <= 0:
+                raise ValueError("Amount must be greater than zero.")
+
+            if action == 'deposit':
+                TransactionManager.process_deposit(request.user, amount)
+                messages.success(request, f'Transaction was successfully created.')
+
+            elif action == 'withdraw':
+                TransactionManager.process_withdrawal(request.user, amount)
+                messages.success(request, f'Transaction was successfully created.')
+
+            else:
+                messages.error(request, 'Invalid action.')
+
+        except ValueError as e:
+            messages.error(request, str(e))
+
+        return redirect('user_dashboard_wallet')
+
+Листинг 4.2.12 – Шаблон страницы кошелька
+{% extends 'user_dashboard_layout.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/user_dashboard_wallet.css' %}">
+{% endblock %}
+{% block content %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div class="wallet-heading-container">
+        <h1>Wallet</h1>
+        <div class="wallet-actions-container">
+            <button id="deposit-button">Deposit</button>
+            <button id="withdraw-button">Withdraw</button>
+        </div>
+    </div>
+    <div class="wallet-container">
+        <div class="wallet-cards-container">
+            <div class="wallet-card">
+                <h2>Balance</h2>
+                <p>{{ wallet.balance }}</p>
+            </div>
+            <div class="wallet-card">
+                <h2>Frozen Balance</h2>
+                <p>{{ wallet.frozen_balance }}</p>
+            </div>
+        </div>
+        <div id="deposit-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="close-deposit-modal">&times;</span>
+                <h2>Deposit Funds</h2>
+                <form method="post" action="{% url 'user_dashboard_wallet' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="deposit">
+                    <label for="deposit-amount">Amount:</label>
+                    <input type="number" step="0.01" name="amount" id="deposit-amount" required>
+                    <button type="submit">Deposit</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Withdraw Modal -->
+        <div id="withdraw-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="close-withdraw-modal">&times;</span>
+                <h2>Withdraw Funds</h2>
+                <form method="post" action="{% url 'user_dashboard_wallet' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="withdraw">
+                    <label for="withdraw-amount">Amount:</label>
+                    <input type="number" step="0.01" name="amount" id="withdraw-amount" required>
+                    <button type="submit">Withdraw</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <h2>Transaction History</h2>
+
+    <table class="transactions-history-table">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Timestamp</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.type }}</td>
+                <td>{{ transaction.amount }}</td>
+                <td>{{ transaction.status }}</td>
+                <td>{{ transaction.timestamp|date:"d.m.Y, H:i" }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4">No transactions available.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <script src="{% static 'js/user-dashboard-wallet.js' %}"></script>
+{% endblock %}
+ 
+4.2.4 Создание маршрутов для моделей
+В файле «urls.py» (листинг 4.2.13) описаны маршруты для приведенных выше представлений.
+
+Листинг 4.2.13 – Маршруты представлений проекта
+from django.urls import path
+
+from app.views import HomePageView, RegisterView, LoginView, AuctionListView, AuctionPageView, UserEditView, \
+    TokenRefreshView, AuctionCreateView, Custom403View, LogoutView, UserStatsView, WalletView
+
+urlpatterns = [
+    path('', HomePageView.as_view(), name='home'),
+    path('auction/create/', AuctionCreateView.as_view(), name='auction_create'),
+    path('auction/<str:id>/', AuctionPageView.as_view(), name='auction'),
+    path('auction/', AuctionListView.as_view(), name='auction_list'),
+    path('accounts/register/', RegisterView.as_view(), name='register'),
+    path('accounts/login/', LoginView.as_view(), name='login'),
+    path('accounts/logout/', LogoutView.as_view(), name='logout'),
+    path('user/dashboard/edit/', UserEditView.as_view(), name='user_dashboard_edit'),
+    path('user/dashboard/stats/', UserStatsView.as_view(), name='user_dashboard_stats'),
+    path('user/dashboard/create-auction/', AuctionCreateView.as_view(), name='user_dashboard_create_auction'),
+    path('user/dashboard/wallet/', WalletView.as_view(), name='user_dashboard_wallet'),
+    path('accounts/refresh_token/', TokenRefreshView.as_view(), name='refresh_token'),
+    path('403/', Custom403View.as_view(), name='custom_403'),
+]
+
+4.2.5 Поиск и отображение найденных данных.
+На странице списка аукционов реализован поиск по названию аукциона (листинг 4.2.1). Метод «get_queryset» в представлении отвечает за получение списка аукционов, которые будут отображаться пользователю. Сначала он получает базовый набор данных из модели «Auction». Если пользователь ввел поисковый запрос, метод фильтрует аукционы по названию, проверяя, содержат ли они введенный текст. Затем он исключает завершенные аукционы, оставляя только те, у которых дата окончания больше текущего времени.
+Если результат поиска пуст, то в шаблоне списка аукционов с помощью блока «{% if not auctions %}» (листинг 4.2.2) выведется соответствующее сообщение «No auctions found matching your search criteria.».
+
+ 
+4.3 Авторизация
+4.3.1 Шаблон авторизации пользователей
+Листинг 4.3.1 – Шаблон авторизации пользователей
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+<div class="modal-container">
+    <h1>Register</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+</div>
+</body>
+</html>
+
+4.3.2 Шаблон приветствия авторизированных пользователей
+Листинг 4.3.2 – Шаблон домашней страницы с приветствием пользователя
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home Page{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="description-container">
+        <h1 class="title">Welcome to the auctions site!</h1>
+        <p class="description">
+            On our website, you can participate in auctions, create your own and find unique products.
+        </p>
+        <img class="description-image"
+             src="{{ URL_HOST }}/static/img/035a1eda399111f087028203bf9b1d68_1.jpg"
+             alt="Изображение ценных предметов: золотые часы, старинная картина, редкая монета."
+        >
+    </div>
+{% endblock %}
+
+4.3.3 Представления, маршруты и шаблоны для авторизации пользователей 
+На листинге 4.3.3 приведены представления для аутентификации и авторизации пользователя:
+
+Листинг 4.3.3 – Представления для аутентификации и авторизации пользователя
+class RegisterView(generics.CreateAPIView):
+
+    queryset = User.objects.all()
+
+    serializer_class = UserSerializer
+
+
+
+    def get(self, request):
+
+        form = RegisterForm()
+
+        return render(request, 'register.html', {'form': form})
+
+
+
+    def post(self, request):
+
+        form = RegisterForm(request.POST)
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect('login')
+
+        return render(request, 'register.html', {'form': form})
+
+
+
+
+
+class LoginView(generics.GenericAPIView):
+
+    queryset = User.objects.all()
+
+    serializer_class = UserSerializer
+
+
+
+    def get(self, request):
+
+        form = LoginForm()
+
+        return render(request, 'login.html', {'form': form})
+
+
+
+    def post(self, request):
+
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+
+            email = form.cleaned_data.get('email')
+
+            password = form.cleaned_data.get('password')
+
+            backend = EmailBackend()
+
+            user = backend.authenticate(request, email=email, password=password)
+
+            if user:
+
+                refresh = RefreshToken.for_user(user)
+
+
+
+                next_url = request.GET.get('next', 'home')
+
+                response = redirect(next_url)
+
+                response.set_cookie('access', str(refresh.access_token), httponly=True)
+
+                response.set_cookie('refresh', str(refresh), httponly=True)
+
+
+
+                return response
+
+            form.add_error(None, 'Invalid email or password')
+
+        return render(request, 'login.html', {'form': form})
+
+
+
+
+
+class TokenRefreshView(APIView):
+
+    def get(self, request):
+
+        refresh_token = request.COOKIES.get('refresh')
+
+        redirect_to_login = request.GET.get('login', 'True') == 'True'
+
+
+
+        if not refresh_token:
+
+            if redirect_to_login:
+
+                return self.login(request)
+
+
+
+            response = self.redirect_to_next(request)
+
+            return self.clear_cookies(response)
+
+
+
+        try:
+
+            token = RefreshToken(refresh_token)
+
+            access_token = token.access_token
+
+
+
+            response = self.redirect_to_next(request)
+
+            response.set_cookie('access', str(access_token), httponly=True)
+
+
+
+            return response
+
+        except (InvalidToken, ExpiredTokenError):
+
+            return self.login(request)
+
+
+
+    def login(self, request):
+
+        next_url = request.GET.get('next', 'home')
+
+        response = redirect(f'{reverse("login")}?next={next_url}')
+
+        return self.clear_cookies(response)
+
+
+
+    def clear_cookies(self, response):
+
+        response.delete_cookie('access')
+
+        response.delete_cookie('refresh')
+
+        return response
+
+
+
+    def redirect_to_next(self, request):
+
+        next_url = request.GET.get('next', 'home')
+
+        return redirect(next_url)
+
+
+
+
+
+class LogoutView(APIView):
+
+    def post(self, request):
+
+        next_url = request.POST.get('next', 'home')
+
+
+
+        response = redirect(next_url)
+
+        response.delete_cookie('access')
+
+        response.delete_cookie('refresh')
+
+        return response
+
+На листингах 4.3.4-4.3.5 представлены шаблоны для страниц логина и регистрации пользователя.
+
+Листинг 4.3.4 – Шаблон страницы логина 
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+<div class="modal-container">
+    <h1>Login</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
+</div>
+</body>
+</html>
+
+Листинг 4.3.5 – Шаблон страницы регистрации
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+<div class="modal-container">
+    <h1>Register</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+</div>
+</body>
+</html>
+
+В файле «urls.py» (листинг 4.3.5) описаны маршруты для приведенных выше представлений.
+
+Листинг 4.3.5 – Маршруты представлений проекта
+from django.urls import path
+
+from app.views import HomePageView, RegisterView, LoginView,    TokenRefreshView, LogoutView
+
+urlpatterns = [
+    path('', HomePageView.as_view(), name='home'),
+    path('accounts/register/', RegisterView.as_view(), name='register'),
+    path('accounts/login/', LoginView.as_view(), name='login'),
+    path('accounts/logout/', LogoutView.as_view(), name='logout'),
+    path('accounts/refresh_token/', TokenRefreshView.as_view(), name='refresh_token'),
+    # остальные маршруты
+]
+
+ 
+4.4 Участие в аукционе
+4.4.1 Управление ставками
+Для начала опишем основной класс, который позволяет сделать ставку для переданного аукциона. Класс «BetManager» предназначен для управления ставками в системе аукционов. Он содержит два статических метода: «place_bet» и «finalize_auction». Метод «place_bet» отвечает за размещение ставки пользователем. Он проверяет минимальную сумму ставки, которая должна быть больше или равна предыдущей ставке плюс шаг ставки, либо начальной цены аукциона, если ставок еще не было. Если сумма ставки меньше минимальной, выбрасывается исключение. Также метод обрабатывает разморозку средств предыдущего участника, если такая ставка была, и замораживает средства текущего пользователя. После этого создается объект ставки и сохраняется в базе данных. Метод «finalize_auction» используется для завершения аукциона. Он проверяет, что аукцион действительно завершен, и если есть победившая ставка, переводит средства от победителя к владельцу аукциона. Оба метода взаимодействуют с классом TransactionManager для выполнения операций с кошельком пользователя (заморозка/разморозка активов). Реализация класса приведена в листинге 4.4.1.
+
+Листинг 4.4.1 – Класс BetManager
+from datetime import timezone
+
+from django.db import transaction as db_transaction
+from app.models import Bet, Auction, Wallet
+from app.wallet import TransactionManager
+
+
+class BetManager:
+    @staticmethod
+    @db_transaction.atomic
+    def place_bet(user, auction_id, amount):
+        auction = Auction.objects.select_for_update().get(id=auction_id)
+
+        # Determine the minimum bet amount
+        last_bet = Bet.objects.filter(auction=auction).order_by('-timestamp').first()
+        min_bet = last_bet.amount + auction.bet_step if last_bet else auction.start_price
+
+        if amount < min_bet:
+            raise ValueError(f"The bet amount must be at least {min_bet}")
+
+        if last_bet:
+            TransactionManager.process_unfreeze(last_bet.buyer, last_bet.amount)
+
+        TransactionManager.process_freeze(user, amount)
+
+
+        bet = Bet.objects.create(
+            amount=amount,
+            auction=auction,
+            buyer=user
+        )
+
+        return bet
+
+    @staticmethod
+    @db_transaction.atomic
+    def finalize_auction(auction_id):
+        auction = Auction.objects.select_for_update().get(id=auction_id)
+        if auction.end_date > timezone.now():
+            raise ValueError("The auction has not ended yet")
+
+        winning_bet = Bet.objects.filter(auction=auction).order_by('-amount').first()
+        if not winning_bet:
+            return
+
+        TransactionManager.transfer(winning_bet.buyer, auction.customer, winning_bet.amount)
+
+BetManager используется в представлении страницы аукциона (листинг 4.4.2) при отправке формы ставки (листинг 4.4.3). 
+Метод «post» в классе «AuctionPageView» обрабатывает отправку формы ставки на аукцион. Он получает идентификатор аукциона из параметров URL и проверяет данные, отправленные через форму. Если форма валидна, метод пытается разместить ставку с помощью метода «place_bet» из класса «BetManager». В случае успешного размещения ставки отправляется сообщение через WebSocket для уведомления других пользователей о новой ставке. Если при размещении ставки возникает ошибка, она добавляется в форму, и страница перерисовывается с обновленной формой.
+
+Листинг 4.4.2 – Представления для страницы аукциона
+class AuctionPageView(SetUserMixin, TemplateView):
+    template_name = 'auction.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        auction_id = self.kwargs.get('id')
+        auction = get_object_or_404(Auction, id=auction_id)
+
+        last_bet = Bet.objects.filter(auction=auction).order_by('-timestamp').first()
+        min_bet = last_bet.amount + auction.bet_step if last_bet else auction.start_price
+
+        last_5_bets = Bet.get_last_5_bets(auction_id)
+        for bet in last_5_bets:
+            bet.timestamp = bet.timestamp.strftime('%d.%m.%Y, %H:%M')
+
+        context['auction'] = auction
+        context['tags'] = auction.tags.all()
+        context['last_5_bets'] = last_5_bets
+        context['WEBSOCKET_HOST'] = settings.URL_HOST
+        context['URL_HOST'] = "http://" + settings.URL_HOST
+        context['bet_form'] = BetForm(min_bet=min_bet)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        auction_id = self.kwargs.get('id')
+        form = BetForm(request.POST)
+
+        if form.is_valid():
+            amount = form.cleaned_data['amount']
+
+            try:
+                bet = BetManager.place_bet(request.user, auction_id, amount)
+                channel_layer = get_channel_layer()
+                async_to_sync(channel_layer.group_send)(
+                f'auction_{auction_id}',
+                    {
+                        'type': 'new_bet',
+                        'amount': bet.amount,
+                        'buyer_name': bet.buyer.name,
+                        'timestamp': bet.timestamp.isoformat(),
+                    }
+                )
+                return HttpResponseRedirect(request.path)
+            except Exception as e:
+                form.add_error('amount', e)
+
+        context = self.get_context_data(**kwargs)
+        context['bet_form'] = form
+        return self.render_to_response(context)
+
+Листинг 4.4.3 – Форма ставки
+from django import forms
+from app.models import Bet
+
+class BetForm(forms.ModelForm):
+    class Meta:
+        model = Bet
+        fields = ['amount']
+        widgets = {
+            'amount': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        min_bet = kwargs.pop('min_bet', None)
+        super().__init__(*args, **kwargs)
+        if min_bet:
+            self.fields['amount'].widget.attrs.update({
+                'placeholder': f'Minimum bet: ${min_bet}',
+                'min': min_bet
+            })
+
+В листинге 4.4.4 представлен скрипт для обновления списка ставок в «auction.html», который динамически обновляет данные о ставках с использованием WebSocket. Он устанавливает соединение с сервером, слушает входящие сообщения, парсит JSON-данные, форматирует временную метку и добавляет новую ставку в начало списка. Если количество ставок превышает пять, удаляется последняя. Также обновляется поле ввода для ставок, устанавливая новый placeholder и минимальное значение на основе последней ставки плюс шаг ставки. 
+
+Листинг 4.4.4 – Скрипт для динамического обновления новых ставок 
+<script>
+    (function () {
+        const auctionId = "{{ auction.id }}";
+        const socket = new WebSocket(`ws://{{ WEBSOCKET_HOST }}/ws/auction/${auctionId}/`);
+
+        socket.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+
+            const timestamp = new Date(data.timestamp);
+            const formattedTimestamp = timestamp.toLocaleString('ru-RU', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+            });
+
+            const betList = document.querySelector('.bet-history ul');
+            const newBet = document.createElement('li');
+            newBet.textContent = `$${data.amount} by ${data.buyer_name} on ${formattedTimestamp}`;
+            betList.prepend(newBet);
+
+            if (betList.children.length > 5) {
+                betList.removeChild(betList.lastChild);
+            }
+
+            const betInput = document.querySelector('input[name="amount"]');
+            const newMinBet = data.amount + {{ auction.bet_step }};
+            betInput.setAttribute('placeholder', `Minimum bet: $${newMinBet}`);
+            betInput.setAttribute('min', newMinBet);
+        };
+    })();
+</script>
+
+Для организации подключения и обработки событий по WebSocket, связанных с получением и отправкой новых ставок используется класс «AuctionConsumer». При подключении клиента он добавляет его в группу каналов, связанную с конкретным аукционом, идентификатор которого передается через URL. При отключении клиента он удаляет его из этой группы. Класс также обрабатывает входящие сообщения, которые содержат данные о ставке, включая сумму, имя покупателя и временную метку, и отправляет эти данные всем участникам группы через метод «group_send». Кроме того, он реализует метод для отправки данных обратно клиенту в формате JSON, чтобы обновить интерфейс в реальном времени.
+
+4.4.2 Статистика ставок по аукционам
+Аналог корзины в данной предметной области – список аукционов, в которых участвовал пользователь с информацией о его ставке, текущей максимальной ставки и дате окончания аукциона. В листингах 4.4.5-4.4.6 представлены представление и шаблон для вывода статистики по аукционам, в которых участвовал пользователь.
+Класс представления «UserStatsView» извлекает активные аукционы, где пользователь делал ставки, сериализует данные и передает их в шаблон для отображения.
+
+Листинг 4.4.5 – Представление статистики аукционов, в которых участвовал пользователь
+class UserStatsView(AuthRequiredMixin, View):
+    def get(self, request):
+        auctions = Auction.objects.filter(bet__buyer_id=request.user.id, end_date__gt=timezone.now()).distinct()
+
+        serialized_auctions = [
+            {
+                'title': auction.title,
+                'user_bet': auction.get_user_max_bet(request.user.id).amount,
+                'current_price': auction.get_current_max_bet().amount,
+                'end_date': auction.end_date.strftime('%d.%m.%Y, %H:%M'),
+                'auction_url': f"/auction/{auction.id}/"
+            }
+            for auction in auctions
+        ]
+        return render(request, 'user_dashboard_stats.html', {'auctions': serialized_auctions})
+
+Листинг 4.4.6 – Шаблон статистики аукционов, в которых участвовал пользователь
+{% extends 'user_dashboard_layout.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/user_dashboard_stats.css' %}">
+{% endblock %}
+{% block content %}
+<h1>Your Auction Statistics</h1>
+<div class="auction-card-container">
+    {% for auction in auctions %}
+        <a class="auction-statistic-card" href="{{ auction.auction_url }}"
+        >
+            <h2>{{ auction.title }}</h2>
+            <p>Your Bet:
+                <span>
+                        ${{ auction.user_bet }}
+                    </span>
+            </p>
+            <p>Current Price:
+                <span class="{% if auction.user_bet < auction.current_price %}highlight{% endif %}">
+                        ${{ auction.current_price }}
+                    </span>
+            </p>
+            <p>End Date: {{ auction.end_date }}</p>
+        </a>
+    {% empty %}
+        <p>No auction statistics available at the moment. Information about the auctions you participate in will be displayed here.</p>
+    {% endfor %}
+</div>
+{% endblock %}
+
+4.4.3 Добавление ссылки на страницу статистики
+В листинге 4.4.7 представлена часть шаблона шапки сайта, в которой содержится ссылка на дашборд, в котором можно просмотреть информацию со статистикой пользователя по аукционам.
+
+Листинг 4.4.7 – Панель для ссылок в шапке сайта для авторизированных пользователей.
+<div class="user-info">
+    {% if request.user %}
+        <p>Welcome, {{ request.user.name }}</p>
+        <a href="{% url 'user_dashboard_edit' %}">Dashboard</a>
+        <form id="logout-form" method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" id="next-input" value="">
+            <button type="submit">Logout</button>
+        </form>
+    {% else %}
+        <a id="register-link" href="{% url 'register' %}">Sign Up</a>
+        <a id="login-link" href="{% url 'login' %}">Login</a>
+    {% endif %}
+</div>
+
+ 
+4.5 Кошелек и завершение аукциона
+4.5.1 Завершение аукциона
+Процесс завершения аукциона начинается с проверки всех аукционов, у которых дата окончания уже прошла, но они ещё не были завершены. Для этого используется задача (лситинг 4.5.1), выполняемая с помощью «Celery», которая фильтрует такие аукционы из базы данных. Затем для каждого из них вызывается метод «finalize_auction» из класса «BetManager» (листинг 4.5.2). Этот метод сначала проверяет, действительно ли аукцион завершён, сравнивая текущую дату и время с датой окончания аукциона. Далее определяется победитель аукциона — это участник, сделавший самую высокую ставку. Если ставок не было, процесс завершения просто завершается. Если победитель есть, происходит перевод средств от победителя к заказчику аукциона с использованием метода «transfer» из «TransactionManager» (листинг 4.5.3). После успешного завершения аукциона его статус обновляется в базе данных, чтобы отметить, что он финализирован.
+
+Листинг 4.5.1 – Задача планировщика celery для завершения аукционов
+from celery import shared_task
+from app.models import Auction
+from app.bet_manager import BetManager
+from datetime import timezone
+
+@shared_task
+def check_and_finalize_auctions():
+    auctions = Auction.objects.filter(end_date__lte=timezone.now(), finalized=False)
+    for auction in auctions:
+        try:
+            BetManager.finalize_auction(auction.id)
+            auction.finalized = True
+            auction.save()
+        except ValueError as e:
+            print(f"Error finalizing auction {auction.id}: {e}")
+
+Листинг 4.5.2 – Класс BetManager
+from datetime import timezone
+
+from django.db import transaction as db_transaction
+from app.models import Bet, Auction, Wallet
+from app.wallet import TransactionManager
+
+
+class BetManager:
+    @staticmethod
+    @db_transaction.atomic
+    def place_bet(user, auction_id, amount):
+        auction = Auction.objects.select_for_update().get(id=auction_id)
+
+        # Determine the minimum bet amount
+        last_bet = Bet.objects.filter(auction=auction).order_by('-timestamp').first()
+        min_bet = last_bet.amount + auction.bet_step if last_bet else auction.start_price
+
+        if amount < min_bet:
+            raise ValueError(f"The bet amount must be at least {min_bet}")
+
+
+        if last_bet:
+            TransactionManager.process_unfreeze(last_bet.buyer, last_bet.amount)
+
+        TransactionManager.process_freeze(user, amount)
+
+
+        bet = Bet.objects.create(
+            amount=amount,
+            auction=auction,
+            buyer=user
+        )
+
+        return bet
+
+    @staticmethod
+    @db_transaction.atomic
+    def finalize_auction(auction_id):
+        auction = Auction.objects.select_for_update().get(id=auction_id)
+        if auction.end_date > timezone.now():
+            raise ValueError("The auction has not ended yet")
+
+        winning_bet = Bet.objects.filter(auction=auction).order_by('-amount').first()
+        if not winning_bet:
+            return
+
+        TransactionManager.transfer(winning_bet.buyer, auction.customer, winning_bet.amount)
+
+Листинг 4.5.3 – Класс TransactionManager
+class TransactionManager:
+    @staticmethod
+    def create_transaction(user, transaction_type, amount, status='pending'):
+        return Transaction.objects.create(
+            user=user,
+            type=transaction_type,
+            amount=amount,
+            status=status
+        )
+
+    @staticmethod
+    @db_transaction.atomic
+    def process_deposit(user, amount):
+        transaction = TransactionManager.create_transaction(user, 'deposit', amount, 'pending')
+
+        def submit_transaction_callback(payment_id, status):
+            if status != 'success':
+                transaction.status = 'failed'
+                transaction.save()
+                raise ValueError("Payment failed")
+
+            wallet = Wallet.objects.get(user=user)
+            wallet.deposit(transaction.amount)
+            transaction.status = 'completed'
+            wallet.save()
+            transaction.save()
+
+        try:
+            payment_id = PaymentGateway.create_payment(amount, submit_transaction_callback)
+            transaction.external_payment_id = payment_id
+            transaction.save()
+        except Exception as e:
+            transaction.status = 'failed'
+            transaction.save()
+            raise e
+
+
+    @staticmethod
+    @db_transaction.atomic
+    def process_withdrawal(user, amount):
+        wallet = Wallet.objects.get(user=user)
+        if wallet.balance < amount:
+            raise ValueError("Insufficient balance for withdrawal")
+
+        transaction = TransactionManager.create_transaction(user, 'withdraw', amount, 'pending')
+
+        def submit_transaction_callback(withdraw_id, status):
+            if status != 'success':
+                transaction.status = 'failed'
+                transaction.save()
+                raise ValueError("Payment failed")
+
+            wallet = Wallet.objects.get(user=user)
+            wallet.withdraw(transaction.amount)
+            transaction.status = 'completed'
+            wallet.save()
+            transaction.save()
+
+        try:
+            withdraw_id = PaymentGateway.process_withdrawal(amount, submit_transaction_callback)
+            transaction.external_payment_id = withdraw_id
+        except Exception as e:
+            transaction.status = 'failed'
+            transaction.save()
+            raise e
+
+    @staticmethod
+    @db_transaction.atomic
+    def transfer(sender, recipient, amount):
+        sender_wallet = Wallet.objects.select_for_update().get(user=sender)
+        recipient_wallet = Wallet.objects.select_for_update().get(user=recipient)
+
+        sender_wallet.transfer(recipient_wallet, amount)
+
+        TransactionManager.create_transaction(sender, 'transferred from', amount, 'completed')
+        TransactionManager.create_transaction(recipient, 'transferred to', amount, 'completed')
+
+    @staticmethod
+    @db_transaction.atomic
+    def process_freeze(user, amount):
+        wallet = Wallet.objects.get(user=user)
+        wallet.freeze(amount)
+        return TransactionManager.create_transaction(user, 'freeze', amount, 'completed')
+
+    @staticmethod
+    @db_transaction.atomic
+    def process_unfreeze(user, amount):
+        wallet = Wallet.objects.get(user=user)
+        wallet.unfreeze(amount)
+        return TransactionManager.create_transaction(user, 'unfreeze', amount, 'completed')
+
+4.5.2 Кошелек
+Для совершения ставок у пользователя на счете должны находиться свободные средства. Кроме осуществления ставок доступны следующие операции с кошельком: пополнение, вывод средств и перевод денег между пользователями (от покупателя продавцу).
+Пополнение. Для пополнения кошелька используется метод «process_deposit» из класса «TransactionManager» (листинг 4.5.3). Он создаёт транзакцию типа «deposit» со статусом «pending». После успешного завершения оплаты баланс кошелька обновляется, а статус транзакции меняется на «completed».
+Вывод средств. Для вывода денег из кошелька используется метод «process_withdrawal». Сначала проверяется, достаточно ли средств на балансе кошелька. Создаётся транзакция типа «withdraw» со статусом «pending». После успешного завершения баланс кошелька уменьшается, а статус транзакции обновляется на «completed».
+Перевод. Перевод денег от покупателя к продавцу осуществляется с помощью метода «transfer» из класса «TransactionManager» (листинг 4.5.3). Проверяется, достаточно ли средств у покупателя для перевода. Замороженный баланс уменьшается, а баланс кошелька продавца увеличивается. Создаются две транзакции: одна для отправителя («transferred from») и одна для получателя («transferred to»), обе со статусом «completed».
+ 
+4.5.3 Представления, маршруты и шаблоны для процесса ставок и кошелька
+Метод «post» в классе «AuctionPageView» обрабатывает отправку формы ставки (листинг 4) на аукцион. Он получает идентификатор аукциона из параметров URL и проверяет данные, отправленные через форму. Если форма валидна, метод пытается разместить ставку с помощью метода «place_bet» из класса «BetManager».
+
+Листинг 4.5.4 – Форма ставки
+from django import forms
+from app.models import Bet
+
+class BetForm(forms.ModelForm):
+    class Meta:
+        model = Bet
+        fields = ['amount']
+        widgets = {
+            'amount': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        min_bet = kwargs.pop('min_bet', None)
+        super().__init__(*args, **kwargs)
+        if min_bet:
+            self.fields['amount'].widget.attrs.update({
+                'placeholder': f'Minimum bet: ${min_bet}',
+                'min': min_bet
+            })
+
+Представление «WalletView» (листинг 4.5.5) отвечает за обработку запросов, связанных со страницей кошелька. Он обрабатывает GET-запросы для получения данных о кошельке пользователя и последних 10 транзакций, передавая эти данные в шаблон «user_dashboard_wallet.html» (листинг 4.5.6) для отображения. Для POST-запросов он выполняет действия, связанные с пополнением и выводом средств, проверяет сумму и использует «TransactionManager» для выполнения операций. Уведомления об успехе или ошибке отображаются с помощью системы сообщений Django.
+На странице кошелька отображается баланс пользователя, замороженный баланс и таблица истории транзакций, которая выводит последние 10 операций, связанных с заморозкой/разморозкой денег, а также пополнением/выводом/переводом средств. Каждая запись содержит статус, количество денег, а также время совершения транзакции. В шаблоне предусмотрены кнопки для действий пополнения и вывода средств, которые открывают модальные формы для ввода данных. Шаблон также включает клиентскую проверку введённой суммы и использует систему сообщений Django для отображения уведомлений о результатах операций.
+
+Листинг 4.5.5 – Представление для модели кошелька 
+from django.shortcuts import render, redirect
+from django.views import View
+from app.authentication import AuthRequiredMixin
+from app.models import Wallet, Transaction
+from django.contrib import messages
+
+from app.wallet import TransactionManager
+
+
+class WalletView(AuthRequiredMixin, View):
+    def get(self, request):
+        wallet = Wallet.objects.get(user=request.user)
+        transactions = Transaction.objects.filter(user=request.user).order_by('-timestamp')[:10]
+        return render(request, 'user_dashboard_wallet.html', {'wallet': wallet, 'transactions': transactions})
+
+    def post(self, request):
+        action = request.POST.get('action')
+        amount = request.POST.get('amount')
+
+        try:
+            amount = float(amount)
+            if amount <= 0:
+                raise ValueError("Amount must be greater than zero.")
+
+            if action == 'deposit':
+                TransactionManager.process_deposit(request.user, amount)
+                messages.success(request, f'Transaction was successfully created.')
+
+            elif action == 'withdraw':
+                TransactionManager.process_withdrawal(request.user, amount)
+                messages.success(request, f'Transaction was successfully created.')
+
+            else:
+                messages.error(request, 'Invalid action.')
+
+        except ValueError as e:
+            messages.error(request, str(e))
+
+        return redirect('user_dashboard_wallet')
+
+Листинг 4.5.6 – Шаблон страницы кошелька
+{% extends 'user_dashboard_layout.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/user_dashboard_wallet.css' %}">
+{% endblock %}
+{% block content %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div class="wallet-heading-container">
+        <h1>Wallet</h1>
+        <div class="wallet-actions-container">
+            <button id="deposit-button">Deposit</button>
+            <button id="withdraw-button">Withdraw</button>
+        </div>
+    </div>
+    <div class="wallet-container">
+        <div class="wallet-cards-container">
+            <div class="wallet-card">
+                <h2>Balance</h2>
+                <p>{{ wallet.balance }}</p>
+            </div>
+            <div class="wallet-card">
+                <h2>Frozen Balance</h2>
+                <p>{{ wallet.frozen_balance }}</p>
+            </div>
+        </div>
+        <div id="deposit-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="close-deposit-modal">&times;</span>
+                <h2>Deposit Funds</h2>
+                <form method="post" action="{% url 'user_dashboard_wallet' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="deposit">
+                    <label for="deposit-amount">Amount:</label>
+                    <input type="number" step="0.01" name="amount" id="deposit-amount" required>
+                    <button type="submit">Deposit</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Withdraw Modal -->
+        <div id="withdraw-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="close-withdraw-modal">&times;</span>
+                <h2>Withdraw Funds</h2>
+                <form method="post" action="{% url 'user_dashboard_wallet' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="withdraw">
+                    <label for="withdraw-amount">Amount:</label>
+                    <input type="number" step="0.01" name="amount" id="withdraw-amount" required>
+                    <button type="submit">Withdraw</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <h2>Transaction History</h2>
+
+    <table class="transactions-history-table">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Timestamp</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.type }}</td>
+                <td>{{ transaction.amount }}</td>
+                <td>{{ transaction.status }}</td>
+                <td>{{ transaction.timestamp|date:"d.m.Y, H:i" }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4">No transactions available.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <script src="{% static 'js/user-dashboard-wallet.js' %}"></script>
+{% endblock %}
+
+ 
+4.6 Чат аукциона
+4.6.1 Установка WebSocket сервера 
+Напишем конфигурацию Django в файле «settings.py» для поддержки WebSocket с помощью Channels (листинг 4.6.1). Укажем точку входа ASGI-приложения, а в «CHANNEL_LAYERS» выберем «InMemoryChannelLayer» для хранения сообщений и управления группами соединений в памяти.
+
+Листинг 4.6.1 – Настройка постоянного подключения через WebSocket
+ASGI_APPLICATION = 'auction.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
+
+ASGI-приложение настраивается для поддержки как HTTP, так и WebSocket протоколов. Для WebSocket используется стек промежуточного ПО аутентификации и роутер, который подключает маршруты WebSocket из приложения (листинг 4.6.2).
+
+Листинг 4.6.2 – Настройка asgi сервера
+import os
+from django.core.asgi import get_asgi_application
+from channels.routing import ProtocolTypeRouter, URLRouter
+from channels.auth import AuthMiddlewareStack
+from app.routing import websocket_urlpatterns
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'auction.settings')
+
+application = ProtocolTypeRouter({
+    'http': get_asgi_application(),
+    'websocket': AuthMiddlewareStack(
+        URLRouter(websocket_urlpatterns)
+    ),
+})
+
+
+Определим маршрут для WebSocket соединения, который принимает идентификатор аукциона в адресе и связывает URL с соответствующим consumer-классом. Реализация приведена в листинге 4.6.3.
+
+Листинг 4.6.3 – Добавления роутинга для WebSocket соединения
+from django.urls import path
+from app.consumers import ChatConsumer
+
+websocket_urlpatterns = [
+    path('ws/chat/<uuid:auction_id>/', ChatConsumer.as_asgi()),
+]
+
+
+Модель «Message» хранит сообщения чата: текст, дату, связь с аукционом и отправителем. Также реализован статический метод для создания сообщений.
+
+Листинг 4.6.4 – Класс Message
+class Message(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    text = models.TextField('Text')
+    date = models.DateField('Date', auto_now_add=True)
+    auction = models.ForeignKey(Auction, models.DO_NOTHING, verbose_name='Auction')
+    sender = models.ForeignKey('User', models.DO_NOTHING, verbose_name='Sender')
+
+    @staticmethod
+    def create_message(auction, sender, text):
+        return Message.objects.create(auction=auction, sender=sender, text=text)
+
+    def __str__(self):
+        return f'Сообщение: {self.sender} в {self.auction}'
+
+    class Meta:
+        managed = False
+        db_table = 'Message'
+        verbose_name = 'Message'
+        verbose_name_plural = 'Messages'
+
+
+ 
+4.6.2 Отправка и получение сообщений
+Класс «ChatConsumer» (листинг 4.6.5) реализует асинхронный consumer для обработки событий WebSocket. Он содержит следующие методы:  
+•	connect – подключение к чату (группе аукциона), отправка истории сообщений.
+•	receive – обработка входящих сообщений, сохранение их в базу и рассылка другим пользователям.
+•	chat_message – отправка новых сообщений клиенту.
+•	disconnect – отключение пользователя от группы.
+
+Листинг 4.6.5 – ChatConsumer 
+from asgiref.sync import sync_to_async
+import json
+from channels.generic.websocket import AsyncWebsocketConsumer
+
+from app.models import Message, User
+
+
+class ChatConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.auction_id = self.scope['url_route']['kwargs']['auction_id']
+        self.room_group_name = f'chat_{self.auction_id}'
+
+        await self.channel_layer.group_add(
+            self.room_group_name,
+            self.channel_name
+        )
+        await self.accept()
+        await self.load_chat_history()
+
+    async def load_chat_history(self):
+        messages = await sync_to_async(
+            lambda: list(Message.objects.filter(auction_id=self.auction_id).order_by('timestamp'))
+        )()
+
+        for message in messages:
+            sender_name = await sync_to_async(lambda: getattr(message.sender, 'name', 'Unknown'))()
+            sender_id = await sync_to_async(lambda: str(getattr(message.sender, 'id', 'Unknown')))()
+            text_data = json.dumps({
+                'message': message.text,
+                'sender_name': sender_name,
+                'sender_id': sender_id,
+                'timestamp': message.timestamp.isoformat(),
+            })
+            await self.send(text_data=text_data)
+
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard(
+            self.room_group_name,
+            self.channel_name
+        )
+
+    async def receive(self, text_data):
+        data = json.loads(text_data)
+        message_text = data['message']
+        sender_id = data['sender_id']
+
+        sender = await sync_to_async(lambda: User.objects.get(id=sender_id))()
+
+        message = await sync_to_async(
+            lambda: Message.objects.create(
+                auction_id=self.auction_id,
+                sender=sender,
+                text=message_text
+            )
+        )()
+
+        message_sender_name = await sync_to_async(
+            lambda: getattr(message.sender, 'name', 'Unknown')
+        )()
+
+        message_sender_id = await sync_to_async(
+            lambda: str(getattr(message.sender, 'id', 'Unknown'))
+        )()
+
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'chat_message',
+                'message': message.text,
+                'sender_name': message_sender_name,
+                'sender_id': message_sender_id,
+                'timestamp': message.timestamp.isoformat(),
+            }
+        )
+
+    async def chat_message(self, event):
+        message = event['message']
+        sender_name = event['sender_name']
+        sender_id = event['sender_id']
+        timestamp = event['timestamp']
+
+        await self.send(text_data=json.dumps({
+            'message': message,
+            'sender_name': sender_name,
+            'sender_id': sender_id,
+            'timestamp': timestamp,
+        }))
+
+ 
+4.6.3 Шаблон чата
+Шаблон чата (листинг 4.6.6) реализует клиентский интерфейс чата. Он содержит разметку для отображения сообщений и формы отправки новых сообщений, а также подключает WebSocket к серверу, обрабатывает получение и отправку сообщений, динамически обновляет интерфейс в зависимости от отправителя.
+
+Листинг 4.6.6 – Шаблон чата
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+<div id="chat" class="chat">
+    <h2 class="chat__heading">Chat</h2>
+    <div id="messages" class="chat__messages"></div>
+    <form id="chatForm" class="chat__form">
+        <input type="text" id="messageInput" placeholder="Введите сообщение">
+        <button id="sendButton" type="button">Отправить</button>
+    </form>
+</div>
+<script>
+(function() {
+    const auctionId = "{{ auction.id }}";
+    const chatSocket = new WebSocket(
+        `ws://{{ WEBSOCKET_HOST }}/ws/chat/${auctionId}/`
+    );
+
+    chatSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+        const messages = document.getElementById('messages');
+        const messageElement = document.createElement('div');
+        const messageHeader = document.createElement('div');
+        const messageTimestamp = document.createElement('div');
+
+        const timestamp = new Date(data.timestamp);
+        const formattedTimestamp = timestamp.toLocaleString('ru-RU', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+        });
+
+        messageHeader.className = 'message-header';
+        messageTimestamp.className = 'message-timestamp';
+
+        messageTimestamp.textContent = formattedTimestamp;
+        messageElement.textContent = data.message;
+
+        if ("{{ auction.customer.id }}" == data.sender_id) {
+            messageHeader.textContent = `${data.sender_name} [Customer]`;
+            messageElement.className = 'message_customer';
+        } else if ("{{ request.user.id }}" == data.sender_id) {
+            messageHeader.textContent = data.sender_name;
+            messageElement.className = 'message_mine';
+        } else {
+            messageHeader.textContent = data.sender_name;
+        }
+
+        messageElement.prepend(messageHeader);
+        messageElement.appendChild(messageTimestamp);
+        messages.appendChild(messageElement);
+
+        messages.scrollTop = messages.scrollHeight;
+    };
+
+    chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    document.getElementById('chatForm').onsubmit = function (e) {
+        e.preventDefault(); // Отменяет отправку формы
+        const messageInput = document.getElementById('messageInput');
+        const message = messageInput.value;
+
+        chatSocket.send(JSON.stringify({
+            'message': message,
+            'sender_id': "{{ request.user.id }}"
+        }));
+        messageInput.value = '';
+    };
+})();
+</script>
+
+ 
+ЗАКЛЮЧЕНИЕ  
+В результате данной работы был разработан интернет-аукцион, реализующий все основные функции торговой площадки. Проект auction-django демонстрирует возможности Django для построения надёжных и масштабируемых веб-приложений.
+
+Список использованных источников  
+1. Официальная документация Django  
+2. Python Software Foundation  
+3. Документация PostgreSQL  
+4. Методические материалы по разработке интернет-приложений  
+5. Примеры и гайды по проектированию аукционов
+
+ 
+4.7 Демонстрация пользовательского интерфейса
+Приведем снимки экрана (рисунки 4.7.1-4.7.9) для демонстрации разработанных элементов пользовательского интерфейса.
+
+ 
+Рисунок 4.7.1 – Страница списка аукционов
+
+ 
+Рисунок 4.7.2 – Страница аукциона (для авторизированного пользователя)
+
+ 
+Рисунок 4.7.3 – Страница аукциона (для неавторизированного пользователя)
+
+ 
+Рисунок 4.7.4 – Форма регистрации
+
+ 
+Рисунок 4.7.5 – Форма входа
+
+ 
+Рисунок 4.7.6 – Форма создания аукциона
+
+ 
+Рисунок 4.7.7 – Старица кошелька
+ 
+Рисунок 4.7.8 – Страница редактирования профиля пользователя
+
+ 
+Рисунок 4.7.9 – Страница статистики участия в аукционах
+ 
+5 ЗАКЛЮЧЕНИЕ
